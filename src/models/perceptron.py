@@ -2,17 +2,26 @@
 # trains a model using weight updates, used for digit and face classification
 
 # model object with initialized weights and the Perceptron algorithm for reuse
+
+import random
+
 class Perceptron: 
 
     # sets up class weights for algorithm
     def __init__(self):
-        self.weights = [0, 0, 0, 0] # needs to be random intialization
+        self.weights = []
         self.bias = 0
+        self.alpha = 0.1
     
 
     # predicts and updates weights if it does not equal ground truth (y)
     def train(self, X, y):
-        
+
+        if len(self.weights) == 0:
+            for i in range(len(X[0])):
+                self.weights.append(random.random())
+            print(f"\nWeights: {self.weights}")
+
         for i in range(len(X)):
             x = X[i]
             actual = y[i]
@@ -22,13 +31,15 @@ class Perceptron:
 
             if prediction != actual:
                 if actual == 1:
-                    for j in range(len(x)):
-                        self.weights[j] = self.weights[j] + x[j]
-                    self.bias += 1
+                    direction = 1
                 else:
-                    for j in range(len(x)):
-                        self.weights[j] = self.weights[j] - x[j]
-                    self.bias -= 1
+                    direction = -1
+
+                
+                for j in range(len(x)):
+                    self.weights[j] += self.alpha * direction * x[j]
+                    
+                self.bias += self.alpha * direction
 
 
     # computes a score and defines it as true or false

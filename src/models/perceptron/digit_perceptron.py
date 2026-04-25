@@ -1,13 +1,15 @@
 """
-DIGIT DATA PERCEPTRONS:
+ONE-VS-ALL DIGIT PERCEPTRONS:
 
-    Each of these returns predictions on whether or not a digit image is equal to 0-9. 
+Each perceptron is trained to detect a single digit (0–9).
+It outputs:
+    1 - if image matches TARGET_DIGIT
+    0 - if image is any other digit
 
-    __init__(self): handles function value initialization
-
-    train(self, X, y): handles predictions and immediate mistake correction (via adjusting weights in their proper directions)
-
-    predict(self, X): 
+Each class follows:
+    __init__: initialize weights, bias, learning rate (alpha), target digit
+    train: update weights using perceptron learning rule
+    predict: calculate weighted sum and classify as 0 or 1
 
 """
 
@@ -21,29 +23,36 @@ class Perceptron_0:
         self.alpha = 0.1
         self.TARGET_DIGIT = 0
 
-    def train(self, X, y):
+    def train(self, X, y): 
+
+        # initializes weights, random floats
         if len(self.weights) == 0:
             for i in range(len(X[0])):
                 self.weights.append(random.random())
             print(f"\nWeights: {self.weights}")
 
         for i in range(len(X)):
-            x = X[i]
+
+            x = X[i]    # one image, a subset of X (feature vector)
             actual = y[i]
             prediction = self.predict(x)
 
+            # converts ground truth label into binary classifier (y_binary)
             if actual == self.TARGET_DIGIT:
                 y_binary = 1
             else:
                 y_binary = 0
 
+            # based on how (more below) the prediction was off, weights are adjusted towards ground truth
+
             if prediction != y_binary:
                 for j in range(len(X[0])):
-                    if y_binary == 1:
-                        self.weights[j] += self.alpha * x[j]
-                    else:
-                        self.weights[j] -= self.alpha * x[j]
+                    if y_binary == 1:   # prediction was NOT 0, but it was a 0
+                        self.weights[j] += self.alpha * x[j]    # adjust weights towards positive classifier (since it was FN)
+                    else:   # prediction was 0, but it was NOT 0
+                        self.weights[j] -= self.alpha * x[j]    # adjust weights towards negative classifier (since it was FP)
 
+                # shifts boundary toward positive/negative class
                 if y_binary == 1:
                     self.bias += self.alpha
                 else:
@@ -53,10 +62,12 @@ class Perceptron_0:
     def predict(self, x):
         score = 0
 
+        # finding weighted sum (score)
         for j in range(len(x)):
             score += self.weights[j] * x[j]
         score += self.bias
 
+        # prediction -> 1 = image is a 0 (target_digit), 0 = image is NOT a 0
         if score >= 0:
             score = 1
         else:

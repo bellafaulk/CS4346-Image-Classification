@@ -1,16 +1,15 @@
-# perceptron implementation: using simplified formula f(x) = wx + b
-# trains a model using weight updates, used for digit and face classification
-
-# model object with initialized weights and the Perceptron algorithm for reuse
-
 """
-FACE DATA PERCEPTRONS:
+FACE DATA PERCEPTRON:
 
-    __init__(self):
+    Classifies whether an image contains a face or not.
 
-    train(self, X, y):
+    Output:
+        1 - face detected
+        0 - no face detected
 
-    predict(self, X):
+    Perceptron learning rule is used with:
+        train: updates weights when a mistake/misclassification is made
+        predict: calculate weighted sum and classify it as 0 or 1
 
 """
 
@@ -28,29 +27,30 @@ class Perceptron:
     # predicts and updates weights if it does not equal ground truth (y)
     def train(self, X, y):
 
+        # initializes weights, random floats
         if len(self.weights) == 0:
             for i in range(len(X[0])):
                 self.weights.append(random.random())
-            print(f"\nWeights: {self.weights}")
+            print(f"\nWeights: {self.weights}") # sanity check after intializing weights
 
         for i in range(len(X)):
-            x = X[i]
+            x = X[i]    # one image, a subset of X (feature vector)
             actual = y[i]
             prediction = self.predict(x)
 
-            # adjust weights towards actual answer if the prediction is incorrect
-
+            # based on how (more below) the prediction was off, weights are adjusted towards ground truth
             if prediction != actual:
-                if actual == 1:
-                    direction = 1
-                else:
-                    direction = -1
+                for j in range(len(X[0])):
+                    if actual == 1: # prediction was NOT face, but it was a face
+                        self.weights[j] += self.alpha * x[j]  # adjust weights towards positive classifier (since it was FN)
+                    else:   # prediction was 0, but it was NOT 0
+                        self.weights[j] -= self.alpha * x[j] # adjust weights towards negative classifier (since it was FP)
 
-                
-                for j in range(len(x)):
-                    self.weights[j] += self.alpha * direction * x[j]
-                    
-                self.bias += self.alpha * direction
+                # shifts boundary toward positive/negative class
+                if actual == 1:
+                    self.bias += self.alpha
+                else:
+                    self.bias -= self.alpha
 
 
     # computes a score and defines it as true or false
@@ -60,9 +60,10 @@ class Perceptron:
             score += self.weights[j] * x[j]
         score += self.bias #
         
+        # prediction -> 1 = image is a face, 0 = image is NOT a face
         if score >= 0:
-            score = 1   # true
+            score = 1   # face
         else:
-            score = 0   # false
+            score = 0   # not face
 
         return score

@@ -48,18 +48,18 @@ def main():
     model = Perceptron()
     epochs = 10
     
-
+    # each epoch is a "pass through" of the entire dataset
     for epoch in range(epochs):
         print("training model...")
-        print(f"\nEpoch: {epoch} out of {epochs}")
+        print(f"\nEpoch: {epoch + 1} out of {epochs}")
         model.train(X, y)
         predictions = []
 
         for i in range(len(X)):
             x = X[i]
-
             predictions.append(model.predict(x))
 
+            # sanity checks
             print(f"\npredictions: {predictions}")
             print(f"\nInput: {X[i]}, Predicted: {predictions[i]}, Actual: {y[i]}")
             print(f"\nWeights: {model.weights.copy()}")

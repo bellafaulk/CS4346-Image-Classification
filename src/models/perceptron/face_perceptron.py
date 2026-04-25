@@ -3,6 +3,17 @@
 
 # model object with initialized weights and the Perceptron algorithm for reuse
 
+"""
+FACE DATA PERCEPTRONS:
+
+    __init__(self):
+
+    train(self, X, y):
+
+    predict(self, X):
+
+"""
+
 import random
 
 class Perceptron: 
@@ -47,7 +58,7 @@ class Perceptron:
         score = 0
         for j in range(len(x)):
             score += self.weights[j] * x[j]
-        score += self.bias
+        score += self.bias #
         
         if score >= 0:
             score = 1   # true
@@ -55,5 +66,3 @@ class Perceptron:
             score = 0   # false
 
         return score
-
-    

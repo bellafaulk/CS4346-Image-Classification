@@ -1,10 +1,10 @@
-from perceptron import Perceptron
+from digit_perceptron import Perceptron
 import random
 
 def main():
     # defining dummy feature data (X) and labels (y)
     # one image (8x8, 1 = "+ or #", 0 = whitespace)
-    X = [
+    X = [ # raw pixel feature
         [0, 0, 0, 0, 0, 0, 0, 0,
          0, 1, 1, 1, 1, 1, 1, 0,
          0, 1, 1, 1, 1, 1, 1, 0,

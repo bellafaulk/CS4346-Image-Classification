@@ -75,6 +75,14 @@ class Perceptron_0:
 
         return score
 
+    # gets only score/confidence for DigitPerceptron
+    def get_score(self, x):
+        score = 0
+        for j in range(len(x)):
+            score += self.weights[j] * x[j]
+        score += self.bias
+        return score
+
 
 class Perceptron_1:
 
@@ -127,6 +135,15 @@ class Perceptron_1:
 
         return score
 
+    # gets only score/confidence for DigitPerceptron
+    
+    def get_score(self, x):
+        score = 0
+        for j in range(len(x)):
+            score += self.weights[j] * x[j]
+        score += self.bias
+        return score
+
 
 class Perceptron_2:
 
@@ -176,6 +193,15 @@ class Perceptron_2:
         else:
             score = 0
 
+        return score
+
+    # gets only score/confidence for DigitPerceptron
+    
+    def get_score(self, x):
+        score = 0
+        for j in range(len(x)):
+            score += self.weights[j] * x[j]
+        score += self.bias
         return score
 
 
@@ -230,6 +256,15 @@ class Perceptron_3:
 
         return score
 
+    # gets only score/confidence for DigitPerceptron
+    
+    def get_score(self, x):
+        score = 0
+        for j in range(len(x)):
+            score += self.weights[j] * x[j]
+        score += self.bias
+        return score
+
 class Perceptron_4:
 
     def __init__(self):
@@ -281,6 +316,16 @@ class Perceptron_4:
 
         return score
 
+    # gets only score/confidence for DigitPerceptron
+    
+    def get_score(self, x):
+        score = 0
+        for j in range(len(x)):
+            score += self.weights[j] * x[j]
+        score += self.bias
+        return score
+
+
 class Perceptron_5:
 
     def __init__(self):
@@ -330,6 +375,15 @@ class Perceptron_5:
         else:
             score = 0
 
+        return score
+    
+    # gets only score/confidence for DigitPerceptron
+    
+    def get_score(self, x):
+        score = 0
+        for j in range(len(x)):
+            score += self.weights[j] * x[j]
+        score += self.bias
         return score
 
 
@@ -384,6 +438,16 @@ class Perceptron_6:
 
         return score
 
+    # gets only score/confidence for DigitPerceptron
+    
+    def get_score(self, x):
+        score = 0
+        for j in range(len(x)):
+            score += self.weights[j] * x[j]
+        score += self.bias
+        return score
+
+
 class Perceptron_7:
 
     def __init__(self):
@@ -432,6 +496,15 @@ class Perceptron_7:
         else:
             score = 0
 
+        return score
+
+    # gets only score/confidence for DigitPerceptron
+    
+    def get_score(self, x):
+        score = 0
+        for j in range(len(x)):
+            score += self.weights[j] * x[j]
+        score += self.bias
         return score
 
 
@@ -485,6 +558,15 @@ class Perceptron_8:
 
         return score
 
+    # gets only score/confidence for DigitPerceptron
+    
+    def get_score(self, x):
+        score = 0
+        for j in range(len(x)):
+            score += self.weights[j] * x[j]
+        score += self.bias
+        return score
+
 
 class Perceptron_9:
 
@@ -534,3 +616,55 @@ class Perceptron_9:
             score = 0
 
         return score
+
+    # gets only score/confidence for DigitPerceptron
+    
+    def get_score(self, x):
+        score = 0
+        for j in range(len(x)):
+            score += self.weights[j] * x[j]
+        score += self.bias
+        return score
+
+# Wrap all ten Perceptrons into one class 
+# so we can easily use in RUNNER (runner.py)
+class DigitPerceptron:
+    def __init__(self):
+        self.models = [
+            Perceptron_0(), Perceptron_1(), Perceptron_2(),
+            Perceptron_3(), Perceptron_4(), Perceptron_5(),
+            Perceptron_6(), Perceptron_7(), Perceptron_8(),
+            Perceptron_9()
+        ]
+
+    def train(self, X, y):
+        for model in self.models:
+            model.train(X, y)
+
+    def predict(self, X):
+        predictions = []
+        """
+        For one image, we compute the score across all models and record which model had the best score.
+
+        With this wrapper, we are turning TEN individual classifiers into ONE classifier that picks the "best option."
+
+            Best option: Which digit model is the MOST confident that this image is its digit?
+            
+        This returns predictions, a list that notes the predicted digit for each image (0-9)
+
+        """
+        for x in X:
+            best_digit = 0
+            best_score = float('-inf')
+
+            # check all ten perceptrons for score
+            for model in self.models:
+                score = model.get_score(x)
+
+                if score > best_score:
+                    best_score = score
+                    best_digit = model.TARGET_DIGIT
+
+            predictions.append(best_digit)
+
+        return predictions

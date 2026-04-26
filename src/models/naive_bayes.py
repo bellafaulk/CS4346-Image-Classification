@@ -1,9 +1,9 @@
 #math
 import math
 
-# Defined a class called navieBayes
+# Defined a class called naiveBayes
 
-class navieBayes:
+class naiveBayes:
 
   # constructor: This sets initial values
   def __init__(self):
@@ -153,7 +153,7 @@ def main():
   y = [1, 1, 0, 0]
 
     # calling my function 
-  model = navieBayes()
+  model = naiveBayes()
 
   # training the model
   print("Training the model: ")

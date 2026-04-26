@@ -172,22 +172,3 @@ if __name__ == '__main__':
     print(f"  Expected                    : {10 * 6} (10x6 grid)")
 
     print("\n All tests passed! Feature extractor is ready.")
-
-
-    '''
-# In naive_bayes.py or perceptron.py — they import these two functions:
-from src.data.parser import load_digit_data, load_face_data
-from src.feature.feature_extractor import extract_all
-
-# Load data
-train_images, train_labels = load_digit_data('train')
-test_images,  test_labels  = load_digit_data('test')
-
-# Get feature vectors — they pick 'pixel' or 'grid'
-X_train = extract_all(train_images, mode='pixel')
-X_test  = extract_all(test_images,  mode='pixel')
-
-# X_train[i] → feature vector for image i  (list of 0s and 1s)
-# train_labels[i] → correct label for image i  (int 0-9)
-# '''
-

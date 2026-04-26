@@ -28,10 +28,8 @@ class Perceptron:
     def train(self, X, y):
 
         # initializes weights, random floats
-        if len(self.weights) == 0:
-            for i in range(len(X[0])):
-                self.weights.append(random.random())
-            print(f"\nWeights: {self.weights}") # sanity check after intializing weights
+        if len(self.weights) != len(X[0]):
+            self.weights = [random.random() for _ in range(len(X[0]))]
 
         for i in range(len(X)):
             x = X[i]    # one image, a subset of X (feature vector)
@@ -55,6 +53,7 @@ class Perceptron:
 
     # computes a score and defines it as true or false
     def predict(self, x):
+        
         score = 0
         for j in range(len(x)):
             score += self.weights[j] * x[j]
@@ -66,4 +65,6 @@ class Perceptron:
         else:
             score = 0   # not face
 
+        if len(self.weights) != len(x):
+            print("weights:", len(self.weights), "input:", len(x))
         return score

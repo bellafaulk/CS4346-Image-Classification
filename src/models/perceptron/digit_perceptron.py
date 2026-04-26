@@ -26,10 +26,8 @@ class Perceptron_0:
     def train(self, X, y): 
 
         # initializes weights, random floats
-        if len(self.weights) == 0:
-            for i in range(len(X[0])):
-                self.weights.append(random.random())
-            print(f"\nWeights: {self.weights}")
+        if len(self.weights) != len(X[0]):
+            self.weights = [random.random() for _ in range(len(X[0]))]
 
         for i in range(len(X)):
 
@@ -60,6 +58,7 @@ class Perceptron_0:
             
 
     def predict(self, x):
+
         score = 0
 
         # finding weighted sum (score)
@@ -73,6 +72,9 @@ class Perceptron_0:
         else:
             score = 0
 
+        
+        
+            
         return score
 
     # gets only score/confidence for DigitPerceptron
@@ -93,10 +95,8 @@ class Perceptron_1:
         self.TARGET_DIGIT = 1
 
     def train(self, X, y):
-        if len(self.weights) == 0:
-            for i in range(len(X[0])):
-                self.weights.append(random.random())
-            print(f"\nWeights: {self.weights}")
+        if len(self.weights) != len(X[0]):
+            self.weights = [random.random() for _ in range(len(X[0]))]
 
         for i in range(len(X)):
             x = X[i]
@@ -123,20 +123,21 @@ class Perceptron_1:
 
 
     def predict(self, x):
+
+        if len(self.weights) != len(x):
+            print("MISMATCH:", len(self.weights), len(x))
+            return 0
+
         score = 0
-        for j in range(len(x)):
+        for j in range(len(self.weights)):
             score += self.weights[j] * x[j]
+
         score += self.bias
 
-        if score >= 0:
-            score = 1
-        else:
-            score = 0
-
-        return score
+        return 1 if score >= 0 else 0
 
     # gets only score/confidence for DigitPerceptron
-    
+
     def get_score(self, x):
         score = 0
         for j in range(len(x)):
@@ -154,10 +155,8 @@ class Perceptron_2:
         self.TARGET_DIGIT = 2
 
     def train(self, X, y):
-        if len(self.weights) == 0:
-            for i in range(len(X[0])):
-                self.weights.append(random.random())
-            print(f"\nWeights: {self.weights}")
+        if len(self.weights) != len(X[0]):
+            self.weights = [random.random() for _ in range(len(X[0]))]
 
         for i in range(len(X)):
             x = X[i]
@@ -183,20 +182,21 @@ class Perceptron_2:
 
 
     def predict(self, x):
+
+        if len(self.weights) != len(x):
+            print("MISMATCH:", len(self.weights), len(x))
+            return 0
+
         score = 0
-        for j in range(len(x)):
+        for j in range(len(self.weights)):
             score += self.weights[j] * x[j]
+
         score += self.bias
 
-        if score >= 0:
-            score = 1
-        else:
-            score = 0
-
-        return score
+        return 1 if score >= 0 else 0
 
     # gets only score/confidence for DigitPerceptron
-    
+
     def get_score(self, x):
         score = 0
         for j in range(len(x)):
@@ -214,10 +214,8 @@ class Perceptron_3:
         self.TARGET_DIGIT = 3
 
     def train(self, X, y):
-        if len(self.weights) == 0:
-            for i in range(len(X[0])):
-                self.weights.append(random.random())
-            print(f"\nWeights: {self.weights}")
+        if len(self.weights) != len(X[0]):
+            self.weights = [random.random() for _ in range(len(X[0]))]
 
         for i in range(len(X)):
             x = X[i]
@@ -244,20 +242,21 @@ class Perceptron_3:
 
 
     def predict(self, x):
+
+        if len(self.weights) != len(x):
+            print("MISMATCH:", len(self.weights), len(x))
+            return 0
+
         score = 0
-        for j in range(len(x)):
+        for j in range(len(self.weights)):
             score += self.weights[j] * x[j]
+
         score += self.bias
 
-        if score >= 0:
-            score = 1
-        else:
-            score = 0
-
-        return score
+        return 1 if score >= 0 else 0
 
     # gets only score/confidence for DigitPerceptron
-    
+
     def get_score(self, x):
         score = 0
         for j in range(len(x)):
@@ -274,11 +273,9 @@ class Perceptron_4:
         self.TARGET_DIGIT = 4
 
     def train(self, X, y):
-        if len(self.weights) == 0:
-            for i in range(len(X[0])):
-                self.weights.append(random.random())
-            print(f"\nWeights: {self.weights}")
-
+        if len(self.weights) != len(X[0]):
+            self.weights = [random.random() for _ in range(len(X[0]))]
+        
         for i in range(len(X)):
             x = X[i]
             actual = y[i]
@@ -304,20 +301,21 @@ class Perceptron_4:
 
 
     def predict(self, x):
+
+        if len(self.weights) != len(x):
+            print("MISMATCH:", len(self.weights), len(x))
+            return 0
+
         score = 0
-        for j in range(len(x)):
+        for j in range(len(self.weights)):
             score += self.weights[j] * x[j]
+
         score += self.bias
 
-        if score >= 0:
-            score = 1
-        else:
-            score = 0
-
-        return score
+        return 1 if score >= 0 else 0
 
     # gets only score/confidence for DigitPerceptron
-    
+
     def get_score(self, x):
         score = 0
         for j in range(len(x)):
@@ -335,10 +333,8 @@ class Perceptron_5:
         self.TARGET_DIGIT = 5
 
     def train(self, X, y):
-        if len(self.weights) == 0:
-            for i in range(len(X[0])):
-                self.weights.append(random.random())
-            print(f"\nWeights: {self.weights}")
+        if len(self.weights) != len(X[0]):
+            self.weights = [random.random() for _ in range(len(X[0]))]
 
         for i in range(len(X)):
             x = X[i]
@@ -365,20 +361,21 @@ class Perceptron_5:
 
 
     def predict(self, x):
+
+        if len(self.weights) != len(x):
+            print("MISMATCH:", len(self.weights), len(x))
+            return 0
+
         score = 0
-        for j in range(len(x)):
+        for j in range(len(self.weights)):
             score += self.weights[j] * x[j]
+
         score += self.bias
 
-        if score >= 0:
-            score = 1
-        else:
-            score = 0
-
-        return score
+        return 1 if score >= 0 else 0
     
     # gets only score/confidence for DigitPerceptron
-    
+
     def get_score(self, x):
         score = 0
         for j in range(len(x)):
@@ -396,10 +393,8 @@ class Perceptron_6:
         self.TARGET_DIGIT = 6
 
     def train(self, X, y):
-        if len(self.weights) == 0:
-            for i in range(len(X[0])):
-                self.weights.append(random.random())
-            print(f"\nWeights: {self.weights}")
+        if len(self.weights) != len(X[0]):
+            self.weights = [random.random() for _ in range(len(X[0]))]
 
         for i in range(len(X)):
             x = X[i]
@@ -426,20 +421,21 @@ class Perceptron_6:
 
 
     def predict(self, x):
+
+        if len(self.weights) != len(x):
+            print("MISMATCH:", len(self.weights), len(x))
+            return 0
+
         score = 0
-        for j in range(len(x)):
+        for j in range(len(self.weights)):
             score += self.weights[j] * x[j]
+
         score += self.bias
 
-        if score >= 0:
-            score = 1
-        else:
-            score = 0
-
-        return score
+        return 1 if score >= 0 else 0
 
     # gets only score/confidence for DigitPerceptron
-    
+
     def get_score(self, x):
         score = 0
         for j in range(len(x)):
@@ -457,10 +453,10 @@ class Perceptron_7:
         self.TARGET_DIGIT = 7
 
     def train(self, X, y):
-        if len(self.weights) == 0:
-            for i in range(len(X[0])):
-                self.weights.append(random.random())
-            print(f"\nWeights: {self.weights}")
+        # resets weights every time, more suitable for both pixel and grid features
+        # always matches input size (important bc of diff between raw pixel and grid)
+        if len(self.weights) != len(X[0]):
+            self.weights = [random.random() for _ in range(len(X[0]))]
 
         for i in range(len(X)):
             x = X[i]
@@ -486,20 +482,21 @@ class Perceptron_7:
 
 
     def predict(self, x):
+
+        if len(self.weights) != len(x):
+            print("MISMATCH:", len(self.weights), len(x))
+            return 0
+
         score = 0
-        for j in range(len(x)):
+        for j in range(len(self.weights)):
             score += self.weights[j] * x[j]
+
         score += self.bias
 
-        if score >= 0:
-            score = 1
-        else:
-            score = 0
-
-        return score
+        return 1 if score >= 0 else 0
 
     # gets only score/confidence for DigitPerceptron
-    
+
     def get_score(self, x):
         score = 0
         for j in range(len(x)):
@@ -517,11 +514,9 @@ class Perceptron_8:
         self.TARGET_DIGIT = 8
 
     def train(self, X, y):
-        if len(self.weights) == 0:
-            for i in range(len(X[0])):
-                self.weights.append(random.random())
-            print(f"\nWeights: {self.weights}")
-
+        if len(self.weights) != len(X[0]):
+            self.weights = [random.random() for _ in range(len(X[0]))]
+        
         for i in range(len(X)):
             x = X[i]
             actual = y[i]
@@ -546,20 +541,21 @@ class Perceptron_8:
 
 
     def predict(self, x):
+
+        if len(self.weights) != len(x):
+            print("MISMATCH:", len(self.weights), len(x))
+            return 0
+
         score = 0
-        for j in range(len(x)):
+        for j in range(len(self.weights)):
             score += self.weights[j] * x[j]
+
         score += self.bias
 
-        if score >= 0:
-            score = 1
-        else:
-            score = 0
-
-        return score
+        return 1 if score >= 0 else 0
 
     # gets only score/confidence for DigitPerceptron
-    
+
     def get_score(self, x):
         score = 0
         for j in range(len(x)):
@@ -577,10 +573,8 @@ class Perceptron_9:
         self.TARGET_DIGIT = 9
 
     def train(self, X, y):
-        if len(self.weights) == 0:
-            for i in range(len(X[0])):
-                self.weights.append(random.random())
-            print(f"\nWeights: {self.weights}")
+        if len(self.weights) != len(X[0]):
+            self.weights = [random.random() for _ in range(len(X[0]))]
 
         for i in range(len(X)):
             x = X[i]
@@ -614,11 +608,12 @@ class Perceptron_9:
             score = 1
         else:
             score = 0
-
+        
+            
         return score
 
     # gets only score/confidence for DigitPerceptron
-    
+
     def get_score(self, x):
         score = 0
         for j in range(len(x)):

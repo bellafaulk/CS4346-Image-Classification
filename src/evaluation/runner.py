@@ -3,13 +3,13 @@
 import time
 import numpy as np
 
-from data.parser import load_digit_data, load_face_data
-from feature.feature_extractor import extract_all
+from src.data.parser import load_digit_data, load_face_data
+from src.features.feature_extractor import extract_all
 
-from models.perceptron.digit_perceptron import DigitPerceptron
-from models.naive_bayes import naiveBayes
+from src.models.perceptron.digit_perceptron import DigitPerceptron
+from src.models.naive_bayes import naiveBayes
 
-from evaluation.metrics import accuracy
+from src.evaluation.metrics import accuracy as accuracy_func
 
 # --------------------------------------------------
 # STEP 1: Load dataset + convert to feature vectors
@@ -31,10 +31,10 @@ def load_dataset(task="digit", mode="pixel"):
     # convert to numpy arrays to index easier
 
     return (
-        np.array(X_train),
-        np.array(train_labels),
-        np.array(X_test),
-        np.array(test_labels),
+        X_train,
+        train_labels,
+        X_test,
+        test_labels,
     )
 
 
@@ -53,9 +53,12 @@ def run_single_experiment(model_class, X_train, y_train, X_test, y_test, ratio):
     size = int(n * ratio)
 
     # pick a small subset using ratio (10%, 20%, ..., 100%)
+    # indices is a random selection of training examples
     indices = np.random.choice(n, size=size, replace=False)
-    X_sub = X_train[indices]
-    y_sub = y_train[indices]
+
+    # builds a random subset of images w matching labels
+    X_sub = [X_train[i] for i in indices]
+    y_sub = [y_train[i] for i in indices]
 
     # initialize model
     model = model_class()
@@ -69,7 +72,7 @@ def run_single_experiment(model_class, X_train, y_train, X_test, y_test, ratio):
     predictions = model.predict(X_test)
 
     # compute accuracy
-    acc = accuracy(y_test, predictions)
+    acc = accuracy_func(y_test, predictions)
 
     return acc, runtime
 
@@ -78,7 +81,7 @@ def run_single_experiment(model_class, X_train, y_train, X_test, y_test, ratio):
 # STEP 3: Run multiple trials per % (average results)
 # --------------------------------------------------
 
-def run_model_experiments(model_class, X_train, y_train, X_test, y_test, runs=5):
+def run_model_experiments(model_class, X_train, y_train, X_test, y_test, runs=2):
     """
     runs experiments for 10%, 20%, ..., 100% of the data
     repeats each percentage multiple times and averages the results
@@ -97,13 +100,13 @@ def run_model_experiments(model_class, X_train, y_train, X_test, y_test, runs=5)
 
         # run multiple trials (reduces randomness)
         for _ in range(runs):
-            accuracy, t = run_single_experiment(
+            acc, t = run_single_experiment(
                 model_class,
                 X_train, y_train,
                 X_test, y_test,
                 p
             )
-            accuracies.append(accuracy)
+            accuracies.append(acc)
             times.append(t)
 
         print(
@@ -132,4 +135,4 @@ def run_all():
             print(f"\n=== {task.upper()} ({mode}) ===")
 
             run_model_experiments(DigitPerceptron, X_train, y_train, X_test, y_test)
-            run_model_experiments(NaiveBayes, X_train, y_train, X_test, y_test)
+            run_model_experiments(naiveBayes, X_train, y_train, X_test, y_test)

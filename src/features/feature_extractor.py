@@ -64,7 +64,7 @@ def grid_feature(image_grid, grid_rows = 7, grid_cols = 7):# image grid: the lis
                 if block_is_marked:
                     break#no more checking on the row for this block
              
-                features.append(block_is_marked)
+            features.append(block_is_marked)
     return features# this will return a list of 1 and 0
 
 #these functions my teammates will call for your algorithms
@@ -82,7 +82,7 @@ def extract_features(image_grid, mode = 'pixel', grid_rows = 7, grid_cols = 7):#
     else:# an expectaion for a error if the mode is wrong
         raise ValueError(f"Wrong mode '{mode}'. Choose 'pixel' or 'grid'.")
     
-def extract_all(images, mode = 'pixels', grid_rows = 7, grid_cols = 7):# this will extract the entire dataset at once calls the extract_featur() on each imafge and returns all vectors as a list
+def extract_all(images, mode = 'pixel', grid_rows = 7, grid_cols = 7):# this will extract the entire dataset at once calls the extract_featur() on each imafge and returns all vectors as a list
     #same parameters as the extract_feature()
 
     all_features = []

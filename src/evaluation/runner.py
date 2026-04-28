@@ -7,6 +7,7 @@ from src.data.parser import load_digit_data, load_face_data
 from src.features.feature_extractor import extract_all
 
 from src.models.perceptron.digit_perceptron import DigitPerceptron
+from src.models.perceptron.face_perceptron import Perceptron as FacePerceptron
 from src.models.naive_bayes import naiveBayes
 
 from src.evaluation.metrics import accuracy as accuracy_func
@@ -81,7 +82,7 @@ def run_single_experiment(model_class, X_train, y_train, X_test, y_test, ratio):
 # STEP 3: Run multiple trials per % (average results)
 # --------------------------------------------------
 
-def run_model_experiments(model_class, X_train, y_train, X_test, y_test, runs=2):
+def run_model_experiments(model_class, X_train, y_train, X_test, y_test, runs=5):
     """
     runs experiments for 10%, 20%, ..., 100% of the data
     repeats each percentage multiple times and averages the results
@@ -134,5 +135,10 @@ def run_all():
 
             print(f"\n=== {task.upper()} ({mode}) ===")
 
-            run_model_experiments(DigitPerceptron, X_train, y_train, X_test, y_test)
+            if task == "digit":
+                perceptron_model = DigitPerceptron
+            else:
+                perceptron_model = FacePerceptron
+
+            run_model_experiments(perceptron_model, X_train, y_train, X_test, y_test)
             run_model_experiments(naiveBayes, X_train, y_train, X_test, y_test)

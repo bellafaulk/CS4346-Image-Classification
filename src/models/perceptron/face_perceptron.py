@@ -34,7 +34,7 @@ class Perceptron:
         for i in range(len(X)):
             x = X[i]    # one image, a subset of X (feature vector)
             actual = y[i]
-            prediction = self.predict(x)
+            prediction = self.predict_one(x)
 
             # based on how (more below) the prediction was off, weights are adjusted towards ground truth
             if prediction != actual:
@@ -51,20 +51,28 @@ class Perceptron:
                     self.bias -= self.alpha
 
 
-    # computes a score and defines it as true or false
-    def predict(self, x):
-        
-        score = 0
-        for j in range(len(x)):
+    # iterates over one image's features
+    def predict_one(self, x):   
+        score = 0 
+
+        for j in range(len(self.weights)):
             score += self.weights[j] * x[j]
-        score += self.bias #
-        
+
+        score += self.bias
+
         # prediction -> 1 = image is a face, 0 = image is NOT a face
         if score >= 0:
             score = 1   # face
         else:
             score = 0   # not face
 
-        if len(self.weights) != len(x):
-            print("weights:", len(self.weights), "input:", len(x))
         return score
+
+    # iterates over all images (used in runner)
+    def predict(self, X):
+        predictions = []
+
+        for x in X:
+            predictions.append(self.predict_one(x))
+
+        return predictions      

@@ -3,8 +3,9 @@
 ## How to Run the Project
 
 Clone the project, navigate to the root directory (the folder that contains the `src/` directory), then run:
-
+```
 python -m src.main
+```
 
 ### Example
 

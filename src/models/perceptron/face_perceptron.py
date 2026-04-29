@@ -31,24 +31,25 @@ class Perceptron:
         if len(self.weights) != len(X[0]):
             self.weights = [random.random() for _ in range(len(X[0]))]
 
-        for i in range(len(X)):
-            x = X[i]    # one image, a subset of X (feature vector)
-            actual = y[i]
-            prediction = self.predict_one(x)
+        for epoch in range(5):
+            for i in range(len(X)):
+                x = X[i]    # one image, a subset of X (feature vector)
+                actual = y[i]
+                prediction = self.predict_one(x)
 
-            # based on how (more below) the prediction was off, weights are adjusted towards ground truth
-            if prediction != actual:
-                for j in range(len(X[0])):
-                    if actual == 1: # prediction was NOT face, but it was a face
-                        self.weights[j] += self.alpha * x[j]  # adjust weights towards positive classifier (since it was FN)
-                    else:   # prediction was 0, but it was NOT 0
-                        self.weights[j] -= self.alpha * x[j] # adjust weights towards negative classifier (since it was FP)
+                # based on how (more below) the prediction was off, weights are adjusted towards ground truth
+                if prediction != actual:
+                    for j in range(len(X[0])):
+                        if actual == 1: # prediction was NOT face, but it was a face
+                            self.weights[j] += self.alpha * x[j]  # adjust weights towards positive classifier (since it was FN)
+                        else:   # prediction was 0, but it was NOT 0
+                            self.weights[j] -= self.alpha * x[j] # adjust weights towards negative classifier (since it was FP)
 
-                # shifts boundary toward positive/negative class
-                if actual == 1:
-                    self.bias += self.alpha
-                else:
-                    self.bias -= self.alpha
+                    # shifts boundary toward positive/negative class
+                    if actual == 1:
+                        self.bias += self.alpha
+                    else:
+                        self.bias -= self.alpha
 
 
     # iterates over one image's features

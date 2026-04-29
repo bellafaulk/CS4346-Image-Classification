@@ -20,13 +20,16 @@ def load_dataset(task="digit", mode="pixel"):
     # load raw images and labels
     if task == "digit":
         train_images, train_labels = load_digit_data("train")
+        val_images, val_labels = load_digit_data("vali")
         test_images, test_labels = load_digit_data("test")
     else:
         train_images, train_labels = load_face_data("train")
+        val_images, val_labels = load_face_data("vali")
         test_images, test_labels = load_face_data("test")
 
     # convert images to feature vectors (0/1)
     X_train = extract_all(train_images, mode=mode)
+    X_val = extract_all(val_images, mode=mode)
     X_test = extract_all(test_images, mode=mode)
 
     # convert to numpy arrays to index easier
@@ -36,6 +39,8 @@ def load_dataset(task="digit", mode="pixel"):
         train_labels,
         X_test,
         test_labels,
+        X_val,
+        val_labels
     )
 
 
@@ -58,6 +63,7 @@ def run_single_experiment(model_class, X_train, y_train, X_test, y_test, ratio):
     indices = np.random.choice(n, size=size, replace=False)
 
     # builds a random subset of images w matching labels
+    # np extracts all rows and returns a new array
     X_sub = [X_train[i] for i in indices]
     y_sub = [y_train[i] for i in indices]
 
@@ -69,12 +75,17 @@ def run_single_experiment(model_class, X_train, y_train, X_test, y_test, ratio):
     model.train(X_sub, y_sub)
     runtime = time.time() - start
 
+    # predict on validation set for internal checking/debugging
+    # val_predictions = model.predict(X_val) DEBUG, NOT FINAL EVAL
+    # val_acc = accuracy_func(y_val, val_predictions) DEBUG, NOT FINAL EVAL
+
     # predict on full test set
     predictions = model.predict(X_test)
 
     # compute accuracy
     acc = accuracy_func(y_test, predictions)
 
+    # return acc, runtime, val_acc DEBUG, NOT FINAL EVAL
     return acc, runtime
 
 
@@ -82,7 +93,7 @@ def run_single_experiment(model_class, X_train, y_train, X_test, y_test, ratio):
 # STEP 3: Run multiple trials per % (average results)
 # --------------------------------------------------
 
-def run_model_experiments(model_class, X_train, y_train, X_test, y_test, runs=5):
+def run_model_experiments(model_class, X_train, y_train, X_val, y_val, X_test, y_test, runs=5):
     """
     runs experiments for 10%, 20%, ..., 100% of the data
     repeats each percentage multiple times and averages the results
@@ -97,22 +108,26 @@ def run_model_experiments(model_class, X_train, y_train, X_test, y_test, runs=5)
 
     for p in percentages:
         accuracies = []
+        # val_accuracies = [] DEBUG, NOT FINAL EVAL
         times = []
 
         # run multiple trials (reduces randomness)
         for _ in range(runs):
-            acc, t = run_single_experiment(
+            acc, t = run_single_experiment( # add val_acc for DEBUG, NOT FINAL EVAL
                 model_class,
                 X_train, y_train,
+                # X_val, y_val,
                 X_test, y_test,
                 p
             )
             accuracies.append(acc)
+            # val_accuracies.append(val_acc) DEBUG, NOT FINAL EVAL
             times.append(t)
 
         print(
-            f"{int(p*100)}% "
+            f"{int(p*100)}% - "
             f"Accuracy: {np.mean(accuracies):.4f} +/- {np.std(accuracies):.4f} | "
+            # f"Val Acc (debug): {np.mean(val_accuracies):.4f} +/- {np.std(val_accuracies):.4f} | " DEBUG, NOT FINAL EVAL
             f"Time: {np.mean(times):.4f}s"
         )
 
@@ -131,7 +146,7 @@ def run_all():
         for mode in ["pixel", "grid"]:
             print(f"\nLOADING {task.upper()} with {mode.upper()} features...")
 
-            X_train, y_train, X_test, y_test = load_dataset(task, mode=mode)
+            X_train, y_train, X_val, y_val, X_test, y_test = load_dataset(task, mode=mode)
 
             print(f"\n=== {task.upper()} ({mode}) ===")
 
@@ -140,5 +155,5 @@ def run_all():
             else:
                 perceptron_model = FacePerceptron
 
-            run_model_experiments(perceptron_model, X_train, y_train, X_test, y_test)
-            run_model_experiments(naiveBayes, X_train, y_train, X_test, y_test)
+            run_model_experiments(perceptron_model, X_train, y_train, X_val, y_val, X_test, y_test)
+            run_model_experiments(naiveBayes, X_train, y_train, X_val, y_val, X_test, y_test)

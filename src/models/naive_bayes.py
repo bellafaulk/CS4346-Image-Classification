@@ -156,14 +156,16 @@ def main():
   model = naiveBayes()
 
   # training the model
-  print("Training the model: ")
-  model.train(X, y)
+  
+'''
+    print("Training the model: ")
+    model.train(X, y)
 
-  print("\nPredictions: ")
-  predictions = model.predict(X)
+    print("\nPredictions: ")
+    predictions = model.predict(X)
 
-  for i in range(len(X)):
-      print(f"Input: {X[i]} , Predicted: {predictions[i]}, Actual: {y[i]}")
-      
+    for i in range(len(X)):
+        print(f"Input: {X[i]} , Predicted: {predictions[i]}, Actual: {y[i]}")
+'''
       
 main()

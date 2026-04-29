@@ -20,7 +20,7 @@ class Perceptron_0:
     def __init__(self):
         self.weights = []
         self.bias = 0
-        self.alpha = 0.1
+        self.alpha = 0.01
         self.TARGET_DIGIT = 0
 
     def train(self, X, y): 
@@ -29,32 +29,33 @@ class Perceptron_0:
         if len(self.weights) != len(X[0]):
             self.weights = [random.random() for _ in range(len(X[0]))]
 
-        for i in range(len(X)):
+        for epoch in range(3):
+            
+            for i in range(len(X)):
+                x = X[i]    # one image, a subset of X (feature vector)
+                actual = y[i]
+                prediction = self.predict(x)
 
-            x = X[i]    # one image, a subset of X (feature vector)
-            actual = y[i]
-            prediction = self.predict(x)
-
-            # converts ground truth label into binary classifier (y_binary)
-            if actual == self.TARGET_DIGIT:
-                y_binary = 1
-            else:
-                y_binary = 0
-
-            # based on how (more below) the prediction was off, weights are adjusted towards ground truth
-
-            if prediction != y_binary:
-                for j in range(len(X[0])):
-                    if y_binary == 1:   # prediction was NOT 0, but it was a 0
-                        self.weights[j] += self.alpha * x[j]    # adjust weights towards positive classifier (since it was FN)
-                    else:   # prediction was 0, but it was NOT 0
-                        self.weights[j] -= self.alpha * x[j]    # adjust weights towards negative classifier (since it was FP)
-
-                # shifts boundary toward positive/negative class
-                if y_binary == 1:
-                    self.bias += self.alpha
+                # converts ground truth label into binary classifier (y_binary)
+                if actual == self.TARGET_DIGIT:
+                    y_binary = 1
                 else:
-                    self.bias -= self.alpha
+                    y_binary = 0
+
+                # based on how (more below) the prediction was off, weights are adjusted towards ground truth
+
+                if prediction != y_binary:
+                    for j in range(len(X[0])):
+                        if y_binary == 1:   # prediction was NOT 0, but it was a 0
+                            self.weights[j] += self.alpha * x[j]    # adjust weights towards positive classifier (since it was FN)
+                        else:   # prediction was 0, but it was NOT 0
+                            self.weights[j] -= self.alpha * x[j]    # adjust weights towards negative classifier (since it was FP)
+
+                    # shifts boundary toward positive/negative class
+                    if y_binary == 1:
+                        self.bias += self.alpha
+                    else:
+                        self.bias -= self.alpha
             
 
     def predict(self, x):
@@ -91,42 +92,41 @@ class Perceptron_1:
     def __init__(self):
         self.weights = []
         self.bias = 0
-        self.alpha = 0.1
+        self.alpha = 0.01
         self.TARGET_DIGIT = 1
 
     def train(self, X, y):
         if len(self.weights) != len(X[0]):
             self.weights = [random.random() for _ in range(len(X[0]))]
 
-        for i in range(len(X)):
-            x = X[i]
-            actual = y[i]
-            prediction = self.predict(x)
+        for epoch in range(3):
+            
+            for i in range(len(X)):
+                x = X[i]
+                actual = y[i]
+                prediction = self.predict(x)
 
-            if actual == self.TARGET_DIGIT:
-                y_binary = 1
-            else:
-                y_binary = 0
-
-            if prediction != y_binary:
-                for j in range(len(X[0])):
-                    if y_binary == 1:
-                        self.weights[j] += self.alpha * x[j]
-                    else:
-                        self.weights[j] -= self.alpha * x[j]
-
-                if y_binary == 1:
-                    self.bias += self.alpha
+                if actual == self.TARGET_DIGIT:
+                    y_binary = 1
                 else:
-                    self.bias -= self.alpha
+                    y_binary = 0
+
+                if prediction != y_binary:
+                    for j in range(len(X[0])):
+                        if y_binary == 1:
+                            self.weights[j] += self.alpha * x[j]
+                        else:
+                            self.weights[j] -= self.alpha * x[j]
+
+                    if y_binary == 1:
+                        self.bias += self.alpha
+                    else:
+                        self.bias -= self.alpha
+
 
 
 
     def predict(self, x):
-
-        if len(self.weights) != len(x):
-            print("MISMATCH:", len(self.weights), len(x))
-            return 0
 
         score = 0
         for j in range(len(self.weights)):
@@ -151,41 +151,42 @@ class Perceptron_2:
     def __init__(self):
         self.weights = []
         self.bias = 0
-        self.alpha = 0.1
+        self.alpha = 0.01
         self.TARGET_DIGIT = 2
 
     def train(self, X, y):
         if len(self.weights) != len(X[0]):
             self.weights = [random.random() for _ in range(len(X[0]))]
 
-        for i in range(len(X)):
-            x = X[i]
-            actual = y[i]
-            prediction = self.predict(x)
+        for epoch in range(3):
+            
+            for i in range(len(X)):
+                x = X[i]
+                actual = y[i]
+                prediction = self.predict(x)
 
-            if actual == self.TARGET_DIGIT:
-                y_binary = 1
-            else:
-                y_binary = 0
-
-            if prediction != y_binary:
-                for j in range(len(X[0])):
-                    if y_binary == 1:
-                        self.weights[j] += self.alpha * x[j]
-                    else:
-                        self.weights[j] -= self.alpha * x[j]
-
-                if y_binary == 1:
-                    self.bias += self.alpha
+                if actual == self.TARGET_DIGIT:
+                    y_binary = 1
                 else:
-                    self.bias -= self.alpha
+                    y_binary = 0
+
+                if prediction != y_binary:
+                    for j in range(len(X[0])):
+                        if y_binary == 1:
+                            self.weights[j] += self.alpha * x[j]
+                        else:
+                            self.weights[j] -= self.alpha * x[j]
+
+                    if y_binary == 1:
+                        self.bias += self.alpha
+                    else:
+                        self.bias -= self.alpha
+
 
 
     def predict(self, x):
 
-        if len(self.weights) != len(x):
-            print("MISMATCH:", len(self.weights), len(x))
-            return 0
+    
 
         score = 0
         for j in range(len(self.weights)):
@@ -210,42 +211,43 @@ class Perceptron_3:
     def __init__(self):
         self.weights = []
         self.bias = 0
-        self.alpha = 0.1
+        self.alpha = 0.01
         self.TARGET_DIGIT = 3
 
     def train(self, X, y):
         if len(self.weights) != len(X[0]):
             self.weights = [random.random() for _ in range(len(X[0]))]
 
-        for i in range(len(X)):
-            x = X[i]
-            actual = y[i]
-            prediction = self.predict(x)
+        for epoch in range(3):
+            
+            for i in range(len(X)):
+                x = X[i]
+                actual = y[i]
+                prediction = self.predict(x)
 
-            if actual == self.TARGET_DIGIT:
-                y_binary = 1
-            else:
-                y_binary = 0
-
-            if prediction != y_binary:
-                for j in range(len(X[0])):
-                    if y_binary == 1:
-                        self.weights[j] += self.alpha * x[j]
-                    else:
-                        self.weights[j] -= self.alpha * x[j]
-
-                if y_binary == 1:
-                    self.bias += self.alpha
+                if actual == self.TARGET_DIGIT:
+                    y_binary = 1
                 else:
-                    self.bias -= self.alpha
+                    y_binary = 0
+
+                if prediction != y_binary:
+                    for j in range(len(X[0])):
+                        if y_binary == 1:
+                            self.weights[j] += self.alpha * x[j]
+                        else:
+                            self.weights[j] -= self.alpha * x[j]
+
+                    if y_binary == 1:
+                        self.bias += self.alpha
+                    else:
+                        self.bias -= self.alpha
+
 
 
 
     def predict(self, x):
 
-        if len(self.weights) != len(x):
-            print("MISMATCH:", len(self.weights), len(x))
-            return 0
+    
 
         score = 0
         for j in range(len(self.weights)):
@@ -269,42 +271,43 @@ class Perceptron_4:
     def __init__(self):
         self.weights = []
         self.bias = 0
-        self.alpha = 0.1
+        self.alpha = 0.01
         self.TARGET_DIGIT = 4
 
     def train(self, X, y):
         if len(self.weights) != len(X[0]):
             self.weights = [random.random() for _ in range(len(X[0]))]
         
-        for i in range(len(X)):
-            x = X[i]
-            actual = y[i]
-            prediction = self.predict(x)
+        for epoch in range(3):
+            
+            for i in range(len(X)):
+                x = X[i]
+                actual = y[i]
+                prediction = self.predict(x)
 
-            if actual == self.TARGET_DIGIT:
-                y_binary = 1
-            else:
-                y_binary = 0
-
-            if prediction != y_binary:
-                for j in range(len(X[0])):
-                    if y_binary == 1:
-                        self.weights[j] += self.alpha * x[j]
-                    else:
-                        self.weights[j] -= self.alpha * x[j]
-
-                if y_binary == 1:
-                    self.bias += self.alpha
+                if actual == self.TARGET_DIGIT:
+                    y_binary = 1
                 else:
-                    self.bias -= self.alpha
+                    y_binary = 0
+
+                if prediction != y_binary:
+                    for j in range(len(X[0])):
+                        if y_binary == 1:
+                            self.weights[j] += self.alpha * x[j]
+                        else:
+                            self.weights[j] -= self.alpha * x[j]
+
+                    if y_binary == 1:
+                        self.bias += self.alpha
+                    else:
+                        self.bias -= self.alpha
+
 
 
 
     def predict(self, x):
 
-        if len(self.weights) != len(x):
-            print("MISMATCH:", len(self.weights), len(x))
-            return 0
+    
 
         score = 0
         for j in range(len(self.weights)):
@@ -329,42 +332,43 @@ class Perceptron_5:
     def __init__(self):
         self.weights = []
         self.bias = 0
-        self.alpha = 0.1
+        self.alpha = 0.01
         self.TARGET_DIGIT = 5
 
     def train(self, X, y):
         if len(self.weights) != len(X[0]):
             self.weights = [random.random() for _ in range(len(X[0]))]
 
-        for i in range(len(X)):
-            x = X[i]
-            actual = y[i]
-            prediction = self.predict(x)
+        for epoch in range(3):
+            
+            for i in range(len(X)):
+                x = X[i]
+                actual = y[i]
+                prediction = self.predict(x)
 
-            if actual == self.TARGET_DIGIT:
-                y_binary = 1
-            else:
-                y_binary = 0
-
-            if prediction != y_binary:
-                for j in range(len(X[0])):
-                    if y_binary == 1:
-                        self.weights[j] += self.alpha * x[j]
-                    else:
-                        self.weights[j] -= self.alpha * x[j]
-
-                if y_binary == 1:
-                    self.bias += self.alpha
+                if actual == self.TARGET_DIGIT:
+                    y_binary = 1
                 else:
-                    self.bias -= self.alpha
+                    y_binary = 0
+
+                if prediction != y_binary:
+                    for j in range(len(X[0])):
+                        if y_binary == 1:
+                            self.weights[j] += self.alpha * x[j]
+                        else:
+                            self.weights[j] -= self.alpha * x[j]
+
+                    if y_binary == 1:
+                        self.bias += self.alpha
+                    else:
+                        self.bias -= self.alpha
+
 
 
 
     def predict(self, x):
 
-        if len(self.weights) != len(x):
-            print("MISMATCH:", len(self.weights), len(x))
-            return 0
+    
 
         score = 0
         for j in range(len(self.weights)):
@@ -389,42 +393,43 @@ class Perceptron_6:
     def __init__(self):
         self.weights = []
         self.bias = 0
-        self.alpha = 0.1
+        self.alpha = 0.01
         self.TARGET_DIGIT = 6
 
     def train(self, X, y):
         if len(self.weights) != len(X[0]):
             self.weights = [random.random() for _ in range(len(X[0]))]
 
-        for i in range(len(X)):
-            x = X[i]
-            actual = y[i]
-            prediction = self.predict(x)
+        for epoch in range(3):
+            
+            for i in range(len(X)):
+                x = X[i]
+                actual = y[i]
+                prediction = self.predict(x)
 
-            if actual == self.TARGET_DIGIT:
-                y_binary = 1
-            else:
-                y_binary = 0
-
-            if prediction != y_binary:
-                for j in range(len(X[0])):
-                    if y_binary == 1:
-                        self.weights[j] += self.alpha * x[j]
-                    else:
-                        self.weights[j] -= self.alpha * x[j]
-
-                if y_binary == 1:
-                    self.bias += self.alpha
+                if actual == self.TARGET_DIGIT:
+                    y_binary = 1
                 else:
-                    self.bias -= self.alpha
+                    y_binary = 0
+
+                if prediction != y_binary:
+                    for j in range(len(X[0])):
+                        if y_binary == 1:
+                            self.weights[j] += self.alpha * x[j]
+                        else:
+                            self.weights[j] -= self.alpha * x[j]
+
+                    if y_binary == 1:
+                        self.bias += self.alpha
+                    else:
+                        self.bias -= self.alpha
+
 
 
 
     def predict(self, x):
 
-        if len(self.weights) != len(x):
-            print("MISMATCH:", len(self.weights), len(x))
-            return 0
+    
 
         score = 0
         for j in range(len(self.weights)):
@@ -449,7 +454,7 @@ class Perceptron_7:
     def __init__(self):
         self.weights = []
         self.bias = 0
-        self.alpha = 0.1
+        self.alpha = 0.01
         self.TARGET_DIGIT = 7
 
     def train(self, X, y):
@@ -458,34 +463,35 @@ class Perceptron_7:
         if len(self.weights) != len(X[0]):
             self.weights = [random.random() for _ in range(len(X[0]))]
 
-        for i in range(len(X)):
-            x = X[i]
-            actual = y[i]
-            prediction = self.predict(x)
+        for epoch in range(3):
 
-            if actual == self.TARGET_DIGIT:
-                y_binary = 1
-            else:
-                y_binary = 0
+            for i in range(len(X)):
+                x = X[i]
+                actual = y[i]
+                prediction = self.predict(x)
 
-            if prediction != y_binary:
-                for j in range(len(X[0])):
-                    if y_binary == 1:
-                        self.weights[j] += self.alpha * x[j]
-                    else:
-                        self.weights[j] -= self.alpha * x[j]
-
-                if y_binary == 1:
-                    self.bias += self.alpha
+                if actual == self.TARGET_DIGIT:
+                    y_binary = 1
                 else:
-                    self.bias -= self.alpha
+                    y_binary = 0
+
+                if prediction != y_binary:
+                    for j in range(len(X[0])):
+                        if y_binary == 1:
+                            self.weights[j] += self.alpha * x[j]
+                        else:
+                            self.weights[j] -= self.alpha * x[j]
+
+                    if y_binary == 1:
+                        self.bias += self.alpha
+                    else:
+                        self.bias -= self.alpha
+
 
 
     def predict(self, x):
 
-        if len(self.weights) != len(x):
-            print("MISMATCH:", len(self.weights), len(x))
-            return 0
+    
 
         score = 0
         for j in range(len(self.weights)):
@@ -510,42 +516,40 @@ class Perceptron_8:
     def __init__(self):
         self.weights = []
         self.bias = 0
-        self.alpha = 0.1
+        self.alpha = 0.01
         self.TARGET_DIGIT = 8
 
     def train(self, X, y):
         if len(self.weights) != len(X[0]):
             self.weights = [random.random() for _ in range(len(X[0]))]
         
-        for i in range(len(X)):
-            x = X[i]
-            actual = y[i]
-            prediction = self.predict(x)
+        for epoch in range(3):
+            
+            for i in range(len(X)):
+                x = X[i]
+                actual = y[i]
+                prediction = self.predict(x)
 
-            if actual == self.TARGET_DIGIT:
-                y_binary = 1
-            else:
-                y_binary = 0
-
-            if prediction != y_binary:
-                for j in range(len(X[0])):
-                    if y_binary == 1:
-                        self.weights[j] += self.alpha * x[j]
-                    else:
-                        self.weights[j] -= self.alpha * x[j]
-
-                if y_binary == 1:
-                    self.bias += self.alpha
+                if actual == self.TARGET_DIGIT:
+                    y_binary = 1
                 else:
-                    self.bias -= self.alpha
+                    y_binary = 0
+
+                if prediction != y_binary:
+                    for j in range(len(X[0])):
+                        if y_binary == 1:
+                            self.weights[j] += self.alpha * x[j]
+                        else:
+                            self.weights[j] -= self.alpha * x[j]
+
+                    if y_binary == 1:
+                        self.bias += self.alpha
+                    else:
+                        self.bias -= self.alpha
+
 
 
     def predict(self, x):
-
-        if len(self.weights) != len(x):
-            print("MISMATCH:", len(self.weights), len(x))
-            return 0
-
         score = 0
         for j in range(len(self.weights)):
             score += self.weights[j] * x[j]
@@ -569,34 +573,35 @@ class Perceptron_9:
     def __init__(self):
         self.weights = []
         self.bias = 0
-        self.alpha = 0.1
+        self.alpha = 0.01
         self.TARGET_DIGIT = 9
 
     def train(self, X, y):
         if len(self.weights) != len(X[0]):
             self.weights = [random.random() for _ in range(len(X[0]))]
 
-        for i in range(len(X)):
-            x = X[i]
-            actual = y[i]
-            prediction = self.predict(x)
+        for epoch in range(3):
+            for i in range(len(X)):
+                x = X[i]
+                actual = y[i]
+                prediction = self.predict(x)
 
-            if actual == self.TARGET_DIGIT:
-                y_binary = 1
-            else:
-                y_binary = 0
-
-            if prediction != y_binary:
-                for j in range(len(X[0])):
-                    if y_binary == 1:
-                        self.weights[j] += self.alpha * x[j]
-                    else:
-                        self.weights[j] -= self.alpha * x[j]
-
-                if y_binary == 1:
-                    self.bias += self.alpha
+                if actual == self.TARGET_DIGIT:
+                    y_binary = 1
                 else:
-                    self.bias -= self.alpha
+                    y_binary = 0
+
+                if prediction != y_binary:
+                    for j in range(len(X[0])):
+                        if y_binary == 1:
+                            self.weights[j] += self.alpha * x[j]
+                        else:
+                            self.weights[j] -= self.alpha * x[j]
+
+                    if y_binary == 1:
+                        self.bias += self.alpha
+                    else:
+                        self.bias -= self.alpha
 
     def predict(self, x):
         score = 0

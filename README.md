@@ -9,9 +9,11 @@ python -m src.main
 
 ### Example
 
+```
 cd CS4346-Image-Classification
-python -m src.main
 
+python -m src.main
+```
 ## What the Program Does
 
 When you run the command, the program will:

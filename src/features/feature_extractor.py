@@ -25,7 +25,7 @@ def pixel_feature(image_grid):# image grid is our parameter of the list of strin
 #feature 2 grid_region
 #instead of looking at each pixel this will divide the image into a grid and for each block we get a 1 for a marked pixel or 0 for a block that is empty
 
-def grid_feature(image_grid, grid_rows = 7, grid_cols = 7):# image grid: the list of str of the parsed image
+def grid_feature(image_grid, grid_rows = 14, grid_cols = 6):# image grid: the list of str of the parsed image
                                                             # gird_rows: integer of how many rows to divide the image
                                                             # GRID_cols: inters of how many columes to divide
 # getting the actual dimesnions of the image from the grid itself, the rows and columns respectfully
@@ -69,7 +69,7 @@ def grid_feature(image_grid, grid_rows = 7, grid_cols = 7):# image grid: the lis
 
 #these functions my teammates will call for your algorithms
 
-def extract_features(image_grid, mode = 'pixel', grid_rows = 7, grid_cols = 7):#this will convert one image to a feature vector
+def extract_features(image_grid, mode = 'pixel', grid_rows = 14, grid_cols = 6):#this will convert one image to a feature vector
     #will take image_grid: list of string lists from a parsed image from parser.py
     #mode: a string that will either be set to using the pixel or grid feature
     #the grid rows and columns that are used for the grid mode
@@ -82,7 +82,7 @@ def extract_features(image_grid, mode = 'pixel', grid_rows = 7, grid_cols = 7):#
     else:# an expectaion for a error if the mode is wrong
         raise ValueError(f"Wrong mode '{mode}'. Choose 'pixel' or 'grid'.")
     
-def extract_all(images, mode = 'pixel', grid_rows = 7, grid_cols = 7):# this will extract the entire dataset at once calls the extract_featur() on each imafge and returns all vectors as a list
+def extract_all(images, mode = 'pixel', grid_rows = 14, grid_cols = 6):# this will extract the entire dataset at once calls the extract_featur() on each imafge and returns all vectors as a list
     #same parameters as the extract_feature()
 
     all_features = []
